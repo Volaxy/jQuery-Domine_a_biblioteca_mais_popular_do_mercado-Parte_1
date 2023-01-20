@@ -1,35 +1,67 @@
-const phrase = $(".phrase").text();
+const initialTime = $("#remaining-time").text();
 
-const wordsNumbers = phrase.split(" ").length;
-const $phraseLength = $(".number-of-words");
-
-$phraseLength.text(wordsNumbers);
-
-
-// Logic for When the User Type in the Textarea
 const $typingField = $(".typing-field");
-$typingField.on("input", function() {
-    const content = $typingField.val();
-    const wordsQuantity = content.split(/\s+/).length - 1;
 
-    $("#counter-words").text(wordsQuantity);
 
-    const charactersQuantity = content.length;
-    $("#counter-characters").text(charactersQuantity);
+// $(document).ready(... is the same of code below
+$(function() {
+    updatePhraseLength();
+    initializeCounters();
+    initializeTimer();
+
+    $("#restart-button").click(restartGame);
 });
 
-let remainingTime = $("#remaining-time").text();
-$typingField.one("focus", function() { // The "one()" listening only one time the event and the execution
-    const timeCounter = setInterval(function() {
-        remainingTime--;
+function updatePhraseLength() {
+    const phrase = $(".phrase").text();
 
-        $("#remaining-time").text(remainingTime);
+    const wordsNumbers = phrase.split(" ").length;
+    const $phraseLength = $(".number-of-words");
 
-        if(remainingTime < 1) {
-            $typingField.attr("disabled", true); // Get or set an attibute value of an HTML element
-            // If the attribute not contains a value in the HTML, the second parameter defines if the attribute there are in the element or no
+    $phraseLength.text(wordsNumbers);
+}
 
-            clearInterval(timeCounter);
-        }
-    }, 1000);
-});
+function initializeCounters() {
+    $typingField.on("input", function() {
+        const content = $typingField.val();
+        const wordsQuantity = content.split(/\s+/).length - 1;
+
+        $("#counter-words").text(wordsQuantity);
+        
+        const charactersQuantity = content.length;
+        $("#counter-characters").text(charactersQuantity);
+
+        $("#restart-button").attr("disabled", true);
+    });
+}
+
+function initializeTimer() {
+    let remainingTime = $("#remaining-time").text();
+    
+    $typingField.one("focus", function() {
+        const timeCounter = setInterval(function() {
+            remainingTime--;
+            
+            $("#remaining-time").text(remainingTime);
+            
+            if(remainingTime < 1) {
+                $typingField.attr("disabled", true);
+                $("#restart-button").attr("disabled", false);
+
+                clearInterval(timeCounter);
+            }
+        }, 1000);
+    });
+}
+
+function restartGame() { // The "click()" function is the same of ".on("click")"
+    const $typingField = $(".typing-field");
+    $typingField.attr("disabled", false);
+    $typingField.val("");
+
+    $("#counter-words").text("0");
+    $("#counter-characters").text("0");
+    $("#remaining-time").text(initialTime);
+
+    initializeTimer();
+}
