@@ -29,3 +29,7 @@ URL do curso -> [jQuery - Domine a Biblioteca mais Popular do Mercado - Parte 1]
 ## 04 - Reiniciando o Jogo &#x1F516;
 * Chamar a função de *click* diretamente através de `.click()`.
 * Executar um bloco de código quando a página é carregada com `$(document).ready()`.
+
+## 05 - Funções que Auxiliam os Estilos &#x1F516;
+* Remover ou adicionar classes com `removeClass()` ou `addClass()`.
+* Recuperar um valor de CSS de um elemento com `.css()`.

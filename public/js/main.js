@@ -10,7 +10,25 @@ $(function() {
     initializeTimer();
 
     $("#restart-button").click(restartGame);
+
+    verifyText();
 });
+
+function verifyText() {
+    const phrase = $(".phrase").text();
+    $typingField.on("input", function() {
+        const typingValue = $typingField.val();
+        
+        if(phrase.startsWith(typingValue)) {
+            $typingField.addClass("typing-field--green-border");
+            $typingField.removeClass("typing-field--red-border");
+        } else {
+            $typingField.addClass("typing-field--red-border");
+            $typingField.removeClass("typing-field--green-border");
+        }
+    });
+}
+
 
 function updatePhraseLength() {
     const phrase = $(".phrase").text();
@@ -20,6 +38,7 @@ function updatePhraseLength() {
 
     $phraseLength.text(wordsNumbers);
 }
+
 
 function initializeCounters() {
     $typingField.on("input", function() {
@@ -35,6 +54,7 @@ function initializeCounters() {
     });
 }
 
+
 function initializeTimer() {
     let remainingTime = $("#remaining-time").text();
     
@@ -48,11 +68,17 @@ function initializeTimer() {
                 $typingField.attr("disabled", true);
                 $("#restart-button").attr("disabled", false);
 
+                $typingField.addClass("typing-field--disabled");
+
+                $typingField.removeClass("typing-field--red-border");
+                $typingField.removeClass("typing-field--green-border");
+                
                 clearInterval(timeCounter);
             }
         }, 1000);
     });
 }
+
 
 function restartGame() { // The "click()" function is the same of ".on("click")"
     const $typingField = $(".typing-field");
@@ -62,6 +88,8 @@ function restartGame() { // The "click()" function is the same of ".on("click")"
     $("#counter-words").text("0");
     $("#counter-characters").text("0");
     $("#remaining-time").text(initialTime);
+
+    $typingField.removeClass("typing-field--disabled");
 
     initializeTimer();
 }
