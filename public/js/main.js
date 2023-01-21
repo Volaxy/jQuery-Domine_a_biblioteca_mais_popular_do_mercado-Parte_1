@@ -65,19 +65,66 @@ function initializeTimer() {
             $("#remaining-time").text(remainingTime);
             
             if(remainingTime < 1) {
-                $typingField.attr("disabled", true);
-                $("#restart-button").attr("disabled", false);
-
-                $typingField.addClass("typing-field--disabled");
-
-                $typingField.removeClass("typing-field--red-border");
-                $typingField.removeClass("typing-field--green-border");
+                endGame();
                 
                 clearInterval(timeCounter);
             }
         }, 1000);
     });
 }
+
+function endGame() {
+    $typingField.attr("disabled", true);
+    $("#restart-button").attr("disabled", false);
+
+    $typingField.addClass("typing-field--disabled");
+
+    $typingField.removeClass("typing-field--red-border");
+    $typingField.removeClass("typing-field--green-border");
+
+    scoreBoard();
+}
+
+function scoreBoard() {
+    const $tbody = $(".score-board").find("tbody");
+    const wordsCount = $("#counter-words").text();
+    const user = "Volaxy";
+
+    const $tr = createLine(user, wordsCount);
+    $tr.find(".remove-button").click(removeLine);
+
+    $tbody.append($tr); // The "prepend" adds before the element
+}
+
+function createLine(user, wordsCount) {
+    const $tr = $("<tr>");
+
+    const $tdUser = $("<td>").text(user);
+    const $tdWords = $("<td>").text(wordsCount);
+    
+    const $tdRemoveButton = $("<td>");
+    const $a = $("<a>")
+        .addClass("remove-button")
+        .attr("href", "#");
+    const $i = $("<i>")
+        .addClass("material-icons")
+        .text("delete");
+
+    $a.append($i);
+    $tdRemoveButton.append($a);
+    
+    $tr.append($tdUser);
+    $tr.append($tdWords);
+    $tr.append($tdRemoveButton);
+
+    return $tr;
+}
+
+function removeLine(event) {
+    event.preventDefault();
+
+    $(this).parent().parent().remove();
+};
 
 
 function restartGame() { // The "click()" function is the same of ".on("click")"

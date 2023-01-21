@@ -33,3 +33,9 @@ URL do curso -> [jQuery - Domine a Biblioteca mais Popular do Mercado - Parte 1]
 ## 05 - Funções que Auxiliam os Estilos &#x1F516;
 * Remover ou adicionar classes com `removeClass()` ou `addClass()`.
 * Recuperar um valor de CSS de um elemento com `.css()`.
+
+## 06 - Criando e Manipulando Elementos com jQuery &#x1F516;
+* Encontrar um elemento dentro da árvore do DOM com `find()`.
+* Criar elementos dinâmicamente com `$("TAG")`.
+* Subir 1 nível no DOM com `parent()`.
+* Remover um elemento com `remove()`.
